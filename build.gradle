@@ -1,0 +1,14 @@
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'war'
+
+    group = 'wp2531'
+repositories {
+    jcenter()
+}
+
+dependencies {
+    providedCompile 'javax:javaee-web-api:8.0'
+    
+    testImplementation     'junit:junit:4.13'
+}
