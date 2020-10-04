@@ -2,12 +2,11 @@ package wp2531.mvc__intro;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -75,11 +74,16 @@ public class AreaCheckServlet extends HttpServlet {
       
       // printing revious results
       HttpSession currentSession = request.getSession();
-      List<Map<String, String>> previousResults = (List<Map<String, String>>) currentSession.getAttribute(RESULTS_ATTR_NAME);
+      List<ResultBean> previousResults = (List<ResultBean>) currentSession.getAttribute(RESULTS_ATTR_NAME);
       if (previousResults != null)
-        previousResults.forEach((map)-> {
+        previousResults.forEach((bean)-> {
           out.println("                <tr>");
-          map.values().forEach((value)->{ out.println("                  <td>" + value + "</td>"); });
+          out.println("                  <td>" + bean.getDate() + "</td>");
+          out.println("                  <td>" + bean.getTime() + "</td>");
+          out.println("                  <td>" + bean.getX() + "</td>");
+          out.println("                  <td>" + bean.getY() + "</td>");
+          out.println("                  <td>" + bean.getR() + "</td>");
+          out.println("                  <td>" + (bean.isHit() ? "да" : "нет") + "</td>");
           out.println("                </tr>");
         });
       else previousResults = new ArrayList<>();
@@ -136,14 +140,14 @@ public class AreaCheckServlet extends HttpServlet {
         boolean hit = area.isHit(x, y, EPSILON);
         long finished = new Date().getTime(); // ends measuring processing time
         
-        // filling results
-        Map<String, String> query = new LinkedHashMap<>();
-        query.put("date", new Date().toString());
-        query.put("time", Long.toString(finished - started));
-        query.put("x", xURL);
-        query.put("y", yURL);
-        query.put("r", rURL);
-        query.put("hit", hit? "да" : "нет");
+        // filling processed result
+        ResultBean query = new ResultBean();
+        query.setDate(new Date().toString());
+        query.setTime(finished - started);
+        query.setX(xURL);
+        query.setY(yURL);
+        query.setR(rURL);
+        query.setHit(hit);
         
         // adding new query to current session
         previousResults.add(query);
@@ -151,7 +155,12 @@ public class AreaCheckServlet extends HttpServlet {
         
         // all tests passed so printing current query processing
         out.println("                <tr>");
-        query.values().forEach((value)->{ out.println("                  <td>" + value + "</td>"); });
+        out.println("                  <td>" + query.getDate() + "</td>");
+        out.println("                  <td>" + query.getTime() + "</td>");
+        out.println("                  <td>" + query.getX() + "</td>");
+        out.println("                  <td>" + query.getY() + "</td>");
+        out.println("                  <td>" + query.getR() + "</td>");
+        out.println("                  <td>" + (query.isHit() ? "да" : "нет") + "</td>");
         out.println("                </tr>");
         
       } catch (Exception exp) {
@@ -172,7 +181,7 @@ public class AreaCheckServlet extends HttpServlet {
       out.println("");
       out.println("        <tr>");
       out.println("          <td>");
-      out.println("            <a class='btn' href='" + request.getContextPath() + "'>вернуться</a>");
+      out.println("            <a class='btn' href='" + response.encodeURL(request.getContextPath()) + "'>вернуться</a>");
       out.println("          </td>");
       out.println("        </tr>");
       out.println("      </tbody>");

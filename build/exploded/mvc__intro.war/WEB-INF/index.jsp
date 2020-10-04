@@ -9,7 +9,9 @@
 <%@page import="java.util.Map"%>
 <%@page import="java.util.List"%>
 <%@page import="wp2531.mvc__intro.AreaCheckServlet"%>
+<%@page import="wp2531.mvc__intro.ResultBean"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="RU-ru">
@@ -95,6 +97,17 @@
               </thead>
               
               <tbody>
+                <jsp:useBean id="results" scope="session" type="java.util.List" class="java.util.ArrayList" />
+                <c:forEach var="result" items="${results}">
+                <tr>
+                  <td>${result.date}</td>
+                  <td>${result.time}</td>
+                  <td>${result.x}</td>
+                  <td>${result.y}</td>
+                  <td>${result.r}</td>
+                  <td>${result.hit}</td>
+                </tr>
+                </c:forEach>
               </tbody>
             </table>
           </td>
