@@ -1,4 +1,8 @@
 wp2531/mvc__intro/AreaCheckServlet.java
  wp2531.mvc__intro.AreaCheckServlet
+wp2531/mvc__intro/ArgumentsChecker.java
+ wp2531.mvc__intro.ArgumentsChecker
+wp2531/mvc__intro/Area.java
+ wp2531.mvc__intro.Area
 wp2531/mvc__intro/ControllerServlet.java
  wp2531.mvc__intro.ControllerServlet

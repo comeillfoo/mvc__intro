@@ -8,9 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Controller component that control 
- * HTML-pages and delegate some dynamic
- * pages generation to other servlets
+ * This servlet identifies query type 
+ * and delegates its processing either 
+ * the {@link AreaCheckservlet} or the 
+ * HTML-page with form. The delegating 
+ * depends on query content (does query
+ * contains information about dot 
+ * coordinates and radius or not). All 
+ * queries inside application must 
+ * trasnfer to this servlet (by method 
+ * GET or POST depending on variant). 
+ * Other servlets couldn't be invoked 
+ * directly via web-pages.
  * @author comeillfoo
  */
 public class ControllerServlet extends HttpServlet {
