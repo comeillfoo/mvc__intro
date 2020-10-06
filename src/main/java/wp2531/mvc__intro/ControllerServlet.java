@@ -41,8 +41,10 @@ public class ControllerServlet extends HttpServlet {
     String submit = request.getParameter(request.getSession().getId()); // retrieve submit btn pressing
     if (submit == null || y == null || r == null || x == null)
       doPost(request, response);
-    String path = "/results";
-    getServletContext().getRequestDispatcher(response.encodeURL(path)).forward(request, response);
+    else {
+      String path = "/results";
+      request.getRequestDispatcher(path).forward(request, response);
+    }
   }
 
   /**
@@ -57,7 +59,7 @@ public class ControllerServlet extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     String path = "/WEB-INF/form.jsp";
-    getServletContext().getRequestDispatcher(response.encodeURL(path)).forward(request, response);
+    getServletContext().getRequestDispatcher(path).forward(request, response);
   }
 
   /**

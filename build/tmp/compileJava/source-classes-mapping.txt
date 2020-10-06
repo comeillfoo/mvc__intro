@@ -4,7 +4,7 @@ wp2531/mvc__intro/ArgumentsChecker.java
  wp2531.mvc__intro.ArgumentsChecker
 wp2531/mvc__intro/Area.java
  wp2531.mvc__intro.Area
-wp2531/mvc__intro/ControllerServlet.java
- wp2531.mvc__intro.ControllerServlet
 wp2531/mvc__intro/ResultBean.java
  wp2531.mvc__intro.ResultBean
+wp2531/mvc__intro/ControllerServlet.java
+ wp2531.mvc__intro.ControllerServlet

@@ -179,8 +179,8 @@ function handle_canvas_click(ctx_x, ctx_y) {
     return;
   }
   let r = hitRParameter.value;
-  let x = max_radius * (ctx_x - canvas.width / 2) / (canvas.width * part);
-  let y = max_radius * (ctx_y - canvas.height / 2) / (canvas.height * part);
+  let x = transformCoordinate(ctx_x, canvas.width, max_radius, part); // max_radius * (ctx_x - canvas.width / 2) / (canvas.width * part);
+  let y = transformCoordinate(ctx_y, canvas.height, max_radius, part); // max_radius * (ctx_y - canvas.height / 2) / (canvas.height * part);
   console.log('all parameters set so send request');
   let newURL = window.location.href.substring(0, window.location.href.length - 1);
   window.location.href = newURL + buildRequest(x, y, r, 'check');
@@ -193,6 +193,61 @@ function getCursorPosition(canvas, event) {
     handle_canvas_click(x, y);
 }
 
+function transformCoordinate(realCoordinate, fieldSize, length, proportion) {
+  return length * (realCoordinate - fieldSize / 2) / (fieldSize * proportion);
+}
+
+function retransformCoordinate(imagCoordinate, fieldSize, length, proportion) {
+  return fieldSize * (imagCoordinate * proportion / length + 0.5);
+}
+
+
+function makeDotFromRow(row) {
+  let dived_x = row.cells[2];
+  let dived_y = row.cells[3];
+  let dived_r = row.cells[4];
+  let dived_hit = row.cells[5];
+  console.log(dived_x);
+  let x = dived_x.textContent;
+  let y = dived_y.textContent;
+  let r = dived_r.textContent;
+  let hit = dived_hit.textContent === "да"? true : false;
+  return {"x": x, "y": y, "r": r, "hit": hit};
+}
+
+function getLastDots(table_id, last) {
+  let result = [];
+  let table = document.getElementById(table_id);
+  let rows = table.rows;
+  if (last > rows.length)
+    last = rows.length - 1;
+  for (i = rows.length - last; i < rows.length; ++i)
+    result.push(makeDotFromRow(rows[i]));
+  return result;
+}
+
+function putLastDotsOnCanvas(canvas, dots) {
+  let ctx = canvas.getContext('2d');
+  let width = canvas.width;
+  let height = canvas.height;
+  dots.forEach((dot)=>{
+    let x = +dot.x;
+    let y = +dot.y;
+    if (dot.hit)
+      ctx.fillStyle = "#000000";
+    else ctx.fillStyle = "#cd0000";
+    ctx.beginPath();
+    let realx = retransformCoordinate(x, width, max_radius, part);
+    let realy = retransformCoordinate(-y, height, max_radius, part);
+    console.log(`put dot (${realx}, ${realy}) on canvas`);
+    ctx.arc(realx, realy, max_radius, 0, 2*Math.PI, true);
+    ctx.fill();
+    ctx.stroke();
+    ctx.closePath();
+  });
+}
+
+const tailn = 4;
 const part = 0.45;
 const max_radius = 5;
 const canvas = document.getElementById('area');
@@ -200,3 +255,15 @@ canvas.addEventListener('mousedown', function(e) {
     getCursorPosition(canvas, e);
 });
 
+window.onload = function() {
+  handle_drawing(0, 5);
+  let previous_dots = getLastDots('resulting-table', tailn);
+  if (previous_dots.length !== 0) {
+    let lastDot = previous_dots[previous_dots.length - 1];
+    let curRadius = +lastDot.r;
+    handle_drawing(curRadius, 5);
+    putLastDotsOnCanvas(canvas, previous_dots);
+    let radiusInput = document.getElementById('radius-changing');
+    radiusInput.value = curRadius;
+  }
+};

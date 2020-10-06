@@ -179,7 +179,7 @@ public class AreaCheckServlet extends HttpServlet {
       out.println("");
       out.println("        <tr>");
       out.println("          <td>");
-      out.println("            <a class='btn btn__size--return' href='" + response.encodeURL(request.getContextPath()) + "'>вернуться</a>");
+      out.println("            <a class='btn btn__size--return' href='" + request.getContextPath() + "'>вернуться</a>");
       out.println("          </td>");
       out.println("        </tr>");
       out.println("      </tbody>");

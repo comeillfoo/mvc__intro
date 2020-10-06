@@ -84,7 +84,7 @@
         <tr>
           <td colspan="3">
             <!-- table of previous tests -->
-            <table class="results__table--fill">
+            <table id="resulting-table" class="results__table--fill">
               <caption id="results" class="title__text--capital">предыдущие результаты</caption>
               <thead>
                 <tr class="results__row--heading">
