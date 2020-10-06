@@ -1,10 +1,99 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 3 окт. 2020 г., 23:09:36
-    Author     : comeillfoo
-*/
+*, *:before, *:after {
+  box-sizing: border-box;
+}
 
+body {
+  color: #eaeaea;
+  font-size: 16px;
+  background-color: #293f50;
+}
+
+.wrapper {
+  width: 960px;
+  margin: 0 auto;
+}
+
+.row__heading {
+  color: #eaeaea;
+  font-size: 32px;
+  line-height: 1.2em;
+  font-family: Verdana, sans-serif;  
+}
+
+.field__board--rounded {
+  border: 2px solid #eaeaea;
+  border-radius: 5%;
+}
+
+.cell__heading {
+  color: #648880;
+  font-size: 24px;
+}
+
+.title__main {
+  font-size: 36px;
+  font-variant: small-caps;
+  font-family: Verdana, sans-serif;
+  color: #eaeaea;
+  text-decoration: none;
+}
+
+#logo {
+  border-left: 8px solid #648880;
+  padding: 16px 8px;
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.title__main:hover {
+  color: #648880;
+  text-decoration: underline;
+}
+
+.title__align--right {
+  text-align: right;
+}
+
+.title__text--capital, .cell__text--capital {
+  text-transform: capitalize;
+}
+
+.title__after--colon:after {
+  content: ":";
+}
+
+.title__text--field {
+  color: #eaeaea;
+  font-size: 20px;
+  font-style: italic;
+}
+
+.title__text--underlined {
+  text-decoration: underline;
+}
+
+.btn {
+  color: #eaeaea;
+  background-color: #293f50;
+  border: 2px solid #648880;
+  text-transform: uppercase;
+}
+
+.btn__size--level {
+  padding: 5%;
+  width: 64px;
+  height: 64px;
+  margin: auto;
+  font-size: 24px;
+}
+
+.btn__size--submit {
+  width: 100%;
+  padding: 2% 1%;
+  font-size: 32px;
+}
+
+.btn:hover {
+  color: #648880;
+  background-color: #eaeaea;
+}

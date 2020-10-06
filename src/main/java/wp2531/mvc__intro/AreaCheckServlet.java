@@ -44,29 +44,27 @@ public class AreaCheckServlet extends HttpServlet {
       out.println("<!DOCTYPE html>");
       out.println("<html lang='RU-ru'>");
       out.println("  <head>");
-      out.println("    <title>Servlet AreaCheckServlet</title>");
-      out.println("    <link rel='stylesheet' type='text/css' href='assets/stylesheets/main.css'>");
-      out.println("    <link rel='stylesheet' type='text/css' href='assets/stylesheets/results.css'>");
+      out.println("    <title>Точки на области | Результаты</title>");
+      out.println("    <link rel='stylesheet' type='text/css' href='" + request.getContextPath() + "/assets/stylesheets/main.css'>");
+      out.println("    <link rel='stylesheet' type='text/css' href='" + request.getContextPath() + "/assets/stylesheets/results.css'>");
       out.println("  </head>");
       out.println("");
       out.println("  <body>");
-      out.println("    <table>");
-      out.println("      <caption>таблица результатов</caption>");
-      out.println("      <thead>");
-      out.println("      </thead>");
+      out.println("    <table class='wrapper'>");
+      out.println("      <caption id='results' class='title__text--capital'>таблица результатов</caption>");
       out.println("");
       out.println("      <tbody>");
       out.println("        <tr>");
       out.println("          <td>");
-      out.println("            <table>");
+      out.println("            <table class='results__table--fill'>");
       out.println("              <thead>");
-      out.println("                <tr>");
-      out.println("                  <th>дата проверки</th>");
-      out.println("                  <th>время</th>");
-      out.println("                  <th>x</th>");
-      out.println("                  <th>y</th>");
-      out.println("                  <th>r</th>");
-      out.println("                  <th>результат</th>");
+      out.println("                <tr class='results__row--heading'>");
+      out.println("                  <th class='cell__text--capital'>дата проверки</th>");
+      out.println("                  <th>Время, мс</th>");
+      out.println("                  <th class='cell__text--capital'>x</th>");
+      out.println("                  <th class='cell__text--capital'>y</th>");
+      out.println("                  <th class='cell__text--capital'>r</th>");
+      out.println("                  <th class='cell__text--capital'>результат</th>");
       out.println("                </tr>");
       out.println("              </thead>");
       out.println("");
@@ -77,13 +75,13 @@ public class AreaCheckServlet extends HttpServlet {
       List<ResultBean> previousResults = (List<ResultBean>) currentSession.getAttribute(RESULTS_ATTR_NAME);
       if (previousResults != null)
         previousResults.forEach((bean)-> {
-          out.println("                <tr>");
-          out.println("                  <td>" + bean.getDate() + "</td>");
-          out.println("                  <td>" + bean.getTime() + "</td>");
-          out.println("                  <td>" + bean.getX() + "</td>");
-          out.println("                  <td>" + bean.getY() + "</td>");
-          out.println("                  <td>" + bean.getR() + "</td>");
-          out.println("                  <td>" + (bean.isHit() ? "да" : "нет") + "</td>");
+          out.println("                <tr class='results__row--data'>");
+          out.println("                  <td class='results__cell--offset'>" + bean.getDate() + "</td>");
+          out.println("                  <td class='results__cell--offset'>" + bean.getTime() + "</td>");
+          out.println("                  <td class='results__cell--offset'>" + bean.getX() + "</td>");
+          out.println("                  <td class='results__cell--offset'>" + bean.getY() + "</td>");
+          out.println("                  <td class='results__cell--offset'>" + bean.getR() + "</td>");
+          out.println("                  <td class='results__cell--offset'>" + (bean.isHit() ? "да" : "нет") + "</td>");
           out.println("                </tr>");
         });
       else previousResults = new ArrayList<>();
@@ -154,20 +152,20 @@ public class AreaCheckServlet extends HttpServlet {
         currentSession.setAttribute(RESULTS_ATTR_NAME, previousResults);
         
         // all tests passed so printing current query processing
-        out.println("                <tr>");
-        out.println("                  <td>" + query.getDate() + "</td>");
-        out.println("                  <td>" + query.getTime() + "</td>");
-        out.println("                  <td>" + query.getX() + "</td>");
-        out.println("                  <td>" + query.getY() + "</td>");
-        out.println("                  <td>" + query.getR() + "</td>");
-        out.println("                  <td>" + (query.isHit() ? "да" : "нет") + "</td>");
+        out.println("                <tr class='results__row--data'>");
+        out.println("                  <td class='results__cell--offset'><div class=\"results__cell--scrollable\">" + query.getDate() + "</div></td>");
+        out.println("                  <td class='results__cell--offset'><div class=\"results__cell--scrollable\">" + query.getTime() + "</div></td>");
+        out.println("                  <td class='results__cell--offset'><div class=\"results__cell--scrollable\">" + query.getX() + "</div></td>");
+        out.println("                  <td class='results__cell--offset'><div class=\"results__cell--scrollable\">" + query.getY() + "</div></td>");
+        out.println("                  <td class='results__cell--offset'><div class=\"results__cell--scrollable\">" + query.getR() + "</div></td>");
+        out.println("                  <td class='results__cell--offset'><div class=\"results__cell--scrollable\">" + (query.isHit() ? "да" : "нет") + "</div></td>");
         out.println("                </tr>");
         
       } catch (Exception exp) {
         // printing errors while processing query and its parameters
-        out.println("                <tr>");
-        out.println("                  <th>ошибки обработки текущего запроса</th>");
-        out.println("                  <td>" + exp.getMessage() + "</td>");
+        out.println("                <tr class='results__row--data'>");
+        out.println("                  <th colspan='2' class='title__errors title__text--capital title__after--colon'>ошибки обработки текущего запроса</th>");
+        out.println("                  <td colspan='4' class='title__errors'>" + exp.getMessage() + "</td>");
         out.println("                </tr>");
         
       } finally {
@@ -181,7 +179,7 @@ public class AreaCheckServlet extends HttpServlet {
       out.println("");
       out.println("        <tr>");
       out.println("          <td>");
-      out.println("            <a class='btn' href='" + response.encodeURL(request.getContextPath()) + "'>вернуться</a>");
+      out.println("            <a class='btn btn__size--return' href='" + response.encodeURL(request.getContextPath()) + "'>вернуться</a>");
       out.println("          </td>");
       out.println("        </tr>");
       out.println("      </tbody>");
@@ -206,12 +204,13 @@ public class AreaCheckServlet extends HttpServlet {
     try ( PrintWriter out = response.getWriter()) {
       out.println("<!DOCTYPE html>");
       out.println("<html>");
-      out.println("<head>");
-      out.println("<title>Points Hitting | results | Error</title>");      
-      out.println("</head>");
-      out.println("<body>");
-      out.println("<h1>Недопустимый запрос | Invalid query</h1>");
-      out.println("</body>");
+      out.println("  <head>");
+      out.println("    <title>Попадание точек | Результаты [ошибка]</title>");      
+      out.println("  </head>");
+      out.println("");
+      out.println("  <body>");
+      out.println("    <h1>Недопустимый запрос</h1>");
+      out.println("  </body>");
       out.println("</html>");
     }
   }

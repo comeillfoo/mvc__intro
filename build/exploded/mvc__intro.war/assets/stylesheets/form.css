@@ -1,0 +1,25 @@
+body {
+  color: #eaeaea;
+  font-size: 12px;
+  background-color: #293f50;
+}
+
+#area {
+  margin: 0 18%;
+  background-color: #fff;
+}
+
+
+.container__float {
+  display: inline-block;
+  font-family: "Lucida Console", "Courier New", Courier, Consolas, monospace;
+  font-size: 16px;
+}
+
+.container__float--p1-3 {
+  margin: 16px 0.33em;
+  width: 30%;
+  vertical-align: top;
+  height: 100px;
+  text-align: right;
+}

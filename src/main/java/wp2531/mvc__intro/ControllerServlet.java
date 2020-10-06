@@ -1,7 +1,6 @@
 package wp2531.mvc__intro;
 
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,8 +41,8 @@ public class ControllerServlet extends HttpServlet {
     String submit = request.getParameter(request.getSession().getId()); // retrieve submit btn pressing
     if (submit == null || y == null || r == null || x == null)
       doPost(request, response);
-    String path = "results/";
-    request.getRequestDispatcher(response.encodeURL(path)).forward(request, response);
+    String path = "/results";
+    getServletContext().getRequestDispatcher(response.encodeURL(path)).forward(request, response);
   }
 
   /**
@@ -57,8 +56,8 @@ public class ControllerServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    String path = "WEB-INF/index.jsp";
-    request.getRequestDispatcher(response.encodeURL(path)).forward(request, response);
+    String path = "/WEB-INF/form.jsp";
+    getServletContext().getRequestDispatcher(response.encodeURL(path)).forward(request, response);
   }
 
   /**
