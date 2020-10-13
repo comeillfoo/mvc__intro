@@ -74,17 +74,15 @@ The second problem of web-programming. The task is about of creating a MVC syste
 
 ![Wildfly Greetings](https://github.com/Come1LLF00/mvc__intro/blob/master/wildfly_index.png "WF Greet")
 
-4. Деплоинг
-      1. **Используя ГПИ**:
+4.1. Деплоинг **Используя ГПИ**:
+  - запускаете сервер: `bash <wildfly-path>/bin/standalone.sh` (желательно перед этим установить значение переменное окружения `JAVA` в `java18`.
+  - заходите по адресу вида (не забыв перед этим пробросить порты): localhost:<management-http\s-port>/. Таким образом, вы должны попасть на страничку *HAL Management Console* (перед этим войдя под данными своего пользователя).
+  - перейти на пункт **Deployments**.
+  - с помощью стандартного интерфейса загрузки файла "задеплоить" Ваш WAR-архив (если это не архив, то сожмите все содержимое директории <name>.war с помощью ZIP-архиватора (\*nix: `zip <arhive-name>.war` <name>.war/*`).
       
-        - запускаете сервер: `bash <wildfly-path>/bin/standalone.sh` (желательно перед этим установить значение переменное окружения `JAVA` в `java18`.
-        - заходите по адресу вида (не забыв перед этим пробросить порты): localhost:<management-http\s-port>/. Таким образом, вы должны попасть на страничку *HAL Management Console* (перед этим войдя под данными своего пользователя).
-        - перейти на пункт **Deployments**.
-        - с помощью стандартного интерфейса загрузки файла "задеплоить" Ваш WAR-архив (если это не архив, то сожмите все содержимое директории <name>.war с помощью ZIP-архиватора (\*nix: `zip <arhive-name>.war` <name>.war/*`).
+ 4.2. Деплоинг **Используя консоль**:
       
-      2. **Используя консоль**:
-      
-        - копируете war-архив с вашей лабораторной в директорию `<wildfly-path>/standalone/deployments`.
+  - копируете war-архив с вашей лабораторной в директорию `<wildfly-path>/standalone/deployments`.
       
 ##### Страница управления сервером Wildfly
 
