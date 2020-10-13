@@ -33,9 +33,13 @@ The second problem of web-programming. The task is about of creating a MVC syste
 Разработанное веб-приложение необходимо развернуть на сервере [WildFly](https://www.wildfly.org/). Сервер должен быть запущен в standalone-конфигурации, порты должны быть настроены в соответствии с выданным portbase, доступ к http listener'у должен быть открыт для всех IP.
 
 #### Гайд по WildFly
-1. скачать zip-архив с WildFly c официального сайта;
-2. распаковать архив (на Линуксе с помощью утилиты `unzip`) и полученную директорию поместить на гелиос;
-      - на гелиос заходить, пробрасывая порты на тот порт, на котором будете смотреть лабораторную;
+1. скачать zip-архив с WildFly c официального сайта (обязательно Final, с Beta будут проблемы;
+2. распаковать архив (на Линуксе с помощью утилиты `unzip`) и полученную директорию поместить на гелиос (\*nix: `scp`, windows (PuTTY): `pscp`);
+      - на гелиос заходить, пробрасывая порты на тот порт, на котором будете смотреть лабораторную (*portbase*);
+      В PuTTY под windows можно сделать во вкладке слева `Connection/SSH/Tunnels` и пробросить несколько портов сразу:
+      
+      ![PuTTY Guide](https://github.com/Come1LLF00/mvc__intro/blob/master/putty_guide.png "PuTTY")
+      
 3. в этой директории найти файл standalone.xml по пути standalone/configuration/standalone.xml
 
 В этом файле заменить
@@ -51,13 +55,34 @@ The second problem of web-programming. The task is about of creating a MVC syste
 а также строчку
 
         <socket-binding name="http" port="${jboss.http.port:8080}" />
+        <socket-binding name="https" port="${jboss.https.port:443}"/>
 на
 
         <socket-binding name="http" port="${jboss.http.port:<portbase>}"/>
-где portbase --- взятое из гугл-таблицы число
+где portbase --- взятое из гугл-таблицы число. Также желательно заменить в строках
 
-4. чтобы задеплоить лабораторную, первое --- запускаете сервер: `bash <wildfly-path>/bin/standalone.sh`, второе --- копируете war-архив с вашей лабораторной в директорию `<wildfly-path>/standalone/deployments`
-5. если пробрасывали порты, то лабораторная доступна по адресу `localhost:<portbase>/lab2`
+        <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:<initial_port>}"/>
+        <socket-binding name="management-https" interface="management" port="${jboss.management.https.port:<initial_port>}"/>
+значение  *<initial_port>* на свои, причем различные, благо под пользование выдается под 100 портов (должно хватить XD). Данная операция при прослушивании соответствующих портов откроет доступ к ГПИ (Графический Пользовательский Интерфейс) Wildfly. Вдобавок, можно установить свои порты и для этих параметров, но для пробрасывания пригодятся только http/https и management-http/s.
+
+        <socket-binding name="ajp" port="${jboss.ajp.port:[initial_port]}"/>
+        <socket-binding name="txn-recovery-environment" port="[initial_port]"/>
+        <socket-binding name="txn-status-manager" port="[initial_port]"/>
+
+3.1. При попытке обратиться к ГПИ Wildfly у вас в 99.99% случаев возникнет ошибка, связанная с отсутствием какого-либо пользователя, поэтому заранее можно запустить скрипт `bash <wildfly-path>/bin/add-user.sh` и уже заполнив имя и пароль, пропустив добавления в различные группы и введение дополнительных функций, можно будет полноценно воспользоваться ГПИ Wildfly, перейдя по адресу `localhost:<http/s-port>/` (перед этим не забыв пробросить нужные порты).
+
+![Wildfly Greetings](https://github.com/Come1LLF00/mvc__intro/blob/master/wildfly_index.png "WF Greet")
+
+4.1. **Используя ГПИ** чтобы задеплоить лабораторную, первое --- запускаете сервер: `bash <wildfly-path>/bin/standalone.sh` (желательно перед этим установить значение переменное окружения `JAVA` в `java18`), второе --- заходите по адресу вида (не забыв перед этим пробросить порты): localhost:<management-http/s-port>/. Таким образом, вы должны попасть на страничку *HAL Management Console* (перед этим войдя под данными своего пользователя).
+
+![Wildfly HMC](https://github.com/Come1LLF00/mvc__intro/blob/master/wildfly_management.png "WF Management Console")
+
+Далее, перейти на пункт **Deployments** и там с помощью стандартного интерфейса загрузки файла "задеплоить" Ваш WAR-архив (если это не архив, то сожмите все содержимое директории <name>.war с помощью ZIP-архиватора (\*nix: `zip -f <arhive-name>.war` <name>.war/*`).
+      
+#### N.B. для перезалива лабораторной знающие люди совеют использовать не Redeploy (как можно было подумать), а комбинацию Undeploy+Deploy. 
+
+4.2. **Используя консоль** копируете war-архив с вашей лабораторной в директорию `<wildfly-path>/standalone/deployments`
+5. если пробрасывали порты, то лабораторная доступна по адресу `localhost:<portbase>/<context-root>` (данный параметр указан/указывается в файле `WEB-INF/jboss-web.xml`).
 
 ### Вопросы к защите лабораторной работы:
 1. Java-сервлеты. Особенности реализации, ключевые методы, преимущества и недостатки относительно CGI и FastCGI.
