@@ -82,7 +82,11 @@ The second problem of web-programming. The task is about of creating a MVC syste
       
  4.2. Деплоинг **Используя консоль**:
       
-  - копируете war-архив с вашей лабораторной в директорию `<wildfly-path>/standalone/deployments`.
+  - копируете war-архив с вашей лабораторной в директорию `<wildfly-path>/standalone/deployments`, используя `scp` или `pscp` в зависимости от вашей ОС.
+  - логинитесь на гелиос по `ssh`, не забыв перед этим пробросить свой порт на localhost (ключ `-L`).
+  - запускаете сервер: `bash <wildfly-path>/bin/standalone.sh` (желательно перед этим установить значение переменное окружения `JAVA` в `java18`.
+  - если в логах не высветяться никакие сообщение об ошибках (**ERROR**, что в большинстве случаев и должно произойти), то перейти по адресу вида: `localhost:<portbase>/<deployment-context-root>`.
+  - можно удостовериться в успешном деплое в Management Console, также ч/з `ssh` параллельно пробросив *management-http/s* порт в еще одном терминале и там посмотреть во вкладку **Deployments**.
       
 ##### Страница управления сервером Wildfly
 
